@@ -4,11 +4,12 @@ Game = {}
 function Game:update(dt)
     -- toggle pause
     if input:pressed("PauseQuit") then
+        print("Test")
         paused = not paused
     end
     
     if paused then
-        self:drawPauseGUI() -- TODO: LOW Priority: Fix the pause menu to be an overlay proper
+        self:drawPauseGUI()
     else
         self:gameLoop(dt)
         self:drawGameGUI() 
@@ -36,11 +37,7 @@ function Game:drawPauseGUI()
 end
 
 function Game:drawGameGUI()
-    suit.Label("Health", 10, 10, 50, 20)
-    -- Draw a rect? or is there a way to make a UI element here?
-    -- It probably needs to be different, like a slider but with
-    -- another theme. can you theme specific things? or make an
-    -- entirely new UI element "Progress Bar" I guess...
+
 end
 
 function Game:gameLoop(dt)

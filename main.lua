@@ -3,11 +3,6 @@ Simple Love2d Game
 made by Erik Wallin
 ]]--
 
--- TODO: get hump and integrate its gamestate lib
--- TODO: lookup and use SUIT's row/col layout mechanism
--- TODO: set up a git repository
--- TODO: Figure out what happened with OpenGL before, I think it had to do with the comp
---       disabling the graphics card because of battery savins or something...
 
 Input = require("libs/boipushy.Input")
 suit = require("libs/suit")
@@ -35,7 +30,9 @@ end
 
 
 function love.update(dt)
-   
+    if input:pressed("PauseQuit") then
+        print("Test")
+    end
 end
 
 
