@@ -13,9 +13,9 @@ function Game:init()
     Game.tetros = {"I", "J", "L", "O", "S", "T", "Z"}
 
     Game.curTetro = false
-    Game.nextTetro = self.tetros[math.random(1, #self.tetros)]
+    Game.nextTetro = Game:newTetro("I")
 
-    Game.roundTime = 1 -- seconds per round
+    Game.roundTime = 0.01 -- seconds per round
 end
 
 function Game:enter(previous, ...)
@@ -50,7 +50,12 @@ function Game:draw(dt)
     local offset = {x=100, y=30}
 
     for y, row in ipairs(self.grid) do
-        for x, block in ipairs(row) do
+        for x, tile in ipairs(row) do
+            if tile.block then
+                love.graphics.setColor(128, 128, 128, 255)
+            else
+                love.graphics.setColor(255, 255, 255, 255)
+            end
             love.graphics.rectangle("fill", x*16+offset.x, y*16+offset.y, 15, 15)
         end
     end
@@ -73,9 +78,40 @@ function Game:roundFunction()
     -- TODO: figure out why self is apparently a function-value here...
     -- Probably something with timer-lib
     -- Work-around is to use direct reference to Game
-    print("Round")
+    --print("Round")
     if Game.curTetro then
-        -- fall
+        -- check and perform rotations
+
+        local colliding = false
+        for _, pos in ipairs(Game.curTetro.blocksI) do
+            -- check collisions
+            if Game.grid[pos.y + 1] == nil then -- bottom of grid
+                colliding = true
+            elseif Game.grid[pos.y + 1][pos.x].block == true then
+                colliding = true
+            end
+        end
+
+        if colliding then
+            for _, pos in ipairs(Game.curTetro.blocksI) do
+                --print(pos.x, pos.y)
+                if pos.y <= 1 then
+                    -- End game if colliding and any block is at/above top-line
+                    Timer.cancel(Game.roundTimer)
+                    Gamestate.switch(Start_Menu) -- GAME OVER state
+                end
+            end
+            -- stop checking this block
+            Game.curTetro = false
+        else
+            -- fall
+            for _, pos in ipairs(Game.curTetro.blocksI) do
+                Game.grid[pos.y][pos.x].block = false -- remove old
+                pos.y = pos.y + 1
+                Game.grid[pos.y][pos.x].block = true -- set new
+            end
+        end
+
     else
         -- check and remove rows
         index = Game:checkRows()
@@ -84,9 +120,17 @@ function Game:roundFunction()
             index = Game:checkRows()
         end
 
+
         -- spawn new tetro
-        Game.curTetro = Game.nextTetro
-        Game.nextTetro = Game.tetros[math.random(1, #Game.tetros)]
+        Game.curTetro  = Game.nextTetro
+        Game.nextTetro = Game:newTetro("I")--Game.tetros[math.random(1, #Game.tetros)]
+
+        -- initialize grid blocks
+        for _, pos in ipairs(Game.curTetro.blocksI) do
+            --print("setting pos: (" .. pos.x .. ", " .. pos.y .. ")")
+            Game.grid[pos.y][pos.x].block = true
+        end
+
     end
 
     return true -- return false to stop the timer
@@ -94,4 +138,20 @@ end
 
 function Game:gameLoop(dt)
     -- Do actual gamestuff
+end
+
+function Game:newTetro(strType)
+    if strType == "I" then
+        retVal = {
+            centerBlockI = 3, -- which index in blocksI that should be used as center of rot
+            blocksI = {
+                {x=3, y=1},
+                {x=4, y=1},
+                {x=5, y=1},
+                {x=6, y=1},
+            }
+        }
+    end
+
+    return retVal
 end
