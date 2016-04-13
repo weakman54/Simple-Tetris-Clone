@@ -1,38 +1,38 @@
+-- pause gamestate
 Pause_Menu = {}
 
--- State changes
-function Pause_Menu:init() -- Runs when the state is entered only if never run before
-    
+function Pause_Menu:enter(from)
+    self.from = from -- record previous state
 end
 
-function Pause_Menu:enter(previous) -- runs every time the state is entered
-    
-end
-
-function Pause_Menu:leave() -- Called when leaving a state.
-    
-end
-
-function Pause_Menu:resume() -- Called when re-entering a state by Gamestate.pop()-ing another state.
-    
-end
-
-
--- Love update and Draw
 function Pause_Menu:update(dt)
     
 end
 
-function Pause_Menu:draw()
+function Pause_Menu:draw(dt)
+    self.from:drawGUI()
+    self.from:draw(dt)
     
+    love.graphics.setColor(0, 0, 0, 100)
+    love.graphics.rectangle("fill", 0, 0, Width, Height)
+    love.graphics.setColor(255, 255, 255, 255)
+
+    self:drawGUI()
+    suit.draw()
 end
 
 
--- Other love callbacks
-function Pause_Menu:keyreleased(key)
-    
-end
+function Pause_Menu:drawGUI()
+    backButton = suit.Button("Back", 100, 150, 100, 30)
+    menuButton = suit.Button("Menu", 100, 200, 100, 30)
 
-function Pause_Menu:mousereleased(x,y, mouse_btn)
-    
+    if backButton.hit then
+        paused = false
+        Gamestate.pop()
+    end
+
+    if menuButton.hit then
+        paused = false
+        Gamestate.switch(Start_Menu) -- What happens with the pushed pause state?
+    end
 end

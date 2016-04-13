@@ -18,9 +18,6 @@ function Start_Menu:update(dt)
     if input:pressed("PauseQuit") then
         love.event.quit()
     end
-    if input:pressed("PauseQuit") then
-        print("Test2")
-    end
 end
 
 function Start_Menu:draw(dt)

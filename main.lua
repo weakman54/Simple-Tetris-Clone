@@ -26,15 +26,10 @@ function love.load(arg)
     input = Input()
     
     input:bind("escape", "PauseQuit") -- Is there a better way to do this? bind as two different commands?
-
-
 end
 
 
 function love.update(dt)
-    if input:pressed("PauseQuit") then
-        print("Test")
-    end
 end
 
 
