@@ -9,8 +9,18 @@ function Start_Menu:update(dt)
     optionsButton = suit.Button("Options", Width/2-50, 100, 100, 20)
     quitButton    = suit.Button("Quit"   , Width/2-50, 140, 100, 20)
 
+    -- Check GUI state
     if startButton.hit then
         Gamestate.switch(Game)
+    end
+
+    if optionsButton.hit then
+        -- Goto options menu
+        print("Not implemented!")
+    end
+
+    if quitButton.hit then
+        love.event.quit()
     end
 
 
