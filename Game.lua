@@ -6,7 +6,7 @@ function Game:init()
     for y=1,20 do
         Game.grid[y] = {}
         for x=1,10 do
-            Game.grid[y][x] = {block=false, falling=false}
+            Game.grid[y][x] = {block=false}
         end
     end
 
