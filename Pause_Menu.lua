@@ -30,7 +30,7 @@ function Pause_Menu:drawGUI()
 
     if backButton.hit then
         paused = false
-        Gamestate.pop()
+        Gamestate.switch(Game) -- Is it actually better to switch and not push?
     end
 
     if menuButton.hit then

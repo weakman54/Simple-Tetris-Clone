@@ -5,7 +5,7 @@ function Game:update(dt)
     -- toggle pause
     if input:pressed("PauseQuit") then
         paused = not paused -- Can this be removed?
-        Gamestate.push(Pause_Menu)
+        Gamestate.switch(Pause_Menu)
     end
 
     if not paused then
