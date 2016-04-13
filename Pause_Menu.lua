@@ -23,8 +23,10 @@ end
 
 
 function Pause_Menu:drawGUI()
-    backButton = suit.Button("Back", 100, 150, 100, 30)
-    menuButton = suit.Button("Menu", 100, 200, 100, 30)
+    resetMenuUI("Paused")
+
+    backButton = suit.Button("Back", suit.layout:row())
+    menuButton = suit.Button("Menu", suit.layout:row())
 
     if backButton.hit then
         paused = false

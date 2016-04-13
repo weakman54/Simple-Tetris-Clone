@@ -21,7 +21,7 @@ end
 
 
 function Game:drawGUI()
-    suit.Label("Game", 100, 100, 200, 30)
+   resetMenuUI("Game") -- Placeholder for actual stuff, clipping with pausemenu tolerated
 end
 
 function Game:gameLoop(dt)

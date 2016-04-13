@@ -2,13 +2,14 @@
 Start_Menu = {}
 
 function Start_Menu:update(dt)
-    -- Draw GUI
-    suit.Label("Menu", {align="center"}, Width/2-50, 20, 100, 20)
+    resetMenuUI("Tetris Clone")
 
-    startButton   = suit.Button("Start"  , Width/2-50, 60 , 100, 20)
-    optionsButton = suit.Button("Options", Width/2-50, 100, 100, 20)
-    quitButton    = suit.Button("Quit"   , Width/2-50, 140, 100, 20)
+    suit.layout:row()
 
+    startButton   = suit.Button("Start"  , suit.layout:row())
+    optionsButton = suit.Button("Options", suit.layout:row())
+    quitButton    = suit.Button("Quit"   , suit.layout:row())
+    
     -- Check GUI state
     if startButton.hit then
         Gamestate.switch(Game)
@@ -31,5 +32,4 @@ function Start_Menu:update(dt)
 end
 
 function Start_Menu:draw(dt)
-
 end

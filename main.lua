@@ -4,9 +4,13 @@ made by Erik Wallin
 ]]--
 
 
+-- Libraries
 Gamestate = require("libs/hump.gamestate")
 Input = require("libs/boipushy.Input")
 suit = require("libs/suit")
+
+-- helper functions
+require("helperFunctions")
 
 -- States
 require("Start_Menu")
