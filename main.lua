@@ -6,6 +6,7 @@ made by Erik Wallin
 
 -- Libraries
 Gamestate = require("libs/hump.gamestate")
+Timer = require("libs/hump.timer")
 Input = require("libs/boipushy.Input")
 suit = require("libs/suit")
 
@@ -20,7 +21,6 @@ require("Pause_Menu")
 -- Constants
 Width, Height = love.graphics.getWidth(), love.graphics.getHeight()
 
-
 function love.load(arg)
 	-- Init Gamestate
     Gamestate.registerEvents()
@@ -34,6 +34,7 @@ end
 
 
 function love.update(dt)
+    Timer.update(dt)
 end
 
 
