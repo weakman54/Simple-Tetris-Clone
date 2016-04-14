@@ -17,6 +17,7 @@ require("helperFunctions")
 require("Start_Menu")
 require("Game")
 require("Pause_Menu")
+require("Game_Over")
 
 -- Constants
 Width, Height = love.graphics.getWidth(), love.graphics.getHeight()

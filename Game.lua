@@ -2,6 +2,9 @@
 Game = {}
 
 function Game:init()
+    -- Initialize game state and grid
+    Game.playing = true
+
     Game.grid = {}
     for y=1,20 do
         Game.grid[y] = {}
@@ -19,14 +22,42 @@ function Game:init()
 end
 
 function Game:enter(previous, ...)
+    print("Game enter")
+    if previous == Start_Menu then
+        print("...From Start_Menu")
+        -- Reinitialize game state and grid
+        Game.playing = true
+
+        Game.grid = {}
+        for y=1,20 do
+            Game.grid[y] = {}
+            for x=1,10 do
+                Game.grid[y][x] = {block=false}
+            end
+        end
+
+        Game.curTetro = false
+        Game.nextTetro = Game:newTetro("I")
+
+    elseif previous == Pause_Menu then
+        print("From pause menu")
+    end
+
     if self.roundTimer then
+        print("cancel roundTimer: " .. tostring(Game.roundTimer))
         Timer.cancel(self.roundTimer)
     end
-    Game.roundTimer = Timer.every(self.roundTime, self.roundFunction)
+
+    if Game.playing then
+        Game.roundTimer = Timer.every(self.roundTime, self.roundFunction)
+        print("set roundTimer: " .. tostring(Game.roundTimer))
+    end
 end
 function Game:leave()
-    if self.roundTimer then
-        Timer.cancel(self.roundTimer)
+    print("Game leave")
+    if Game.roundTimer then
+        print("cancel roundTimer: " .. tostring(Game.roundTimer))
+        Timer.cancel(Game.roundTimer)
     end
 end
 
@@ -74,7 +105,6 @@ function Game:checkRows()
 end
 
 function Game:roundFunction()
-
     -- TODO: figure out why self is apparently a function-value here...
     -- Probably something with timer-lib
     -- Work-around is to use direct reference to Game
@@ -97,8 +127,11 @@ function Game:roundFunction()
                 --print(pos.x, pos.y)
                 if pos.y <= 1 then
                     -- End game if colliding and any block is at/above top-line
+                    Game.playing = false
+                    -- use return here to stop further execution of the function
+                    print("cancel roundTimer: " .. tostring(Game.roundTimer))
                     Timer.cancel(Game.roundTimer)
-                    Gamestate.switch(Start_Menu) -- GAME OVER state
+                    return Gamestate.switch(Game_Over) -- GAME OVER state
                 end
             end
             -- stop checking this block
