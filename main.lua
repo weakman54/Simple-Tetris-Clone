@@ -31,6 +31,10 @@ function love.load(arg)
     input = Input()
     
     input:bind("escape", "PauseQuit") -- Is there a better way to do this? bind as two different commands?
+    input:bind("a", "moveLeft")
+    input:bind("d", "moveRight")
+    input:bind("w", "rotateCW")
+    input:bind("s", "rotateCCW")
 end
 
 

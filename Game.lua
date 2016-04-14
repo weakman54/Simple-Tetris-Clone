@@ -16,7 +16,7 @@ function Game:init()
     Game.curTetro = false
     Game.nextTetro = Game:newTetro("I")
 
-    Game.roundTime = 0.01 -- seconds per round
+    Game.roundTime = 0.11 -- seconds per round
 end
 
 function Game:enter(previous, ...)
@@ -102,7 +102,19 @@ function Game:roundFunction()
     -- Work-around is to use direct reference to Game
     --print("Round")
     if Game.curTetro then
-        -- check and perform rotations
+        -- check and perform rotations and movements
+        if input:down("moveLeft") then
+            print("moveLeft")
+        end
+        if input:down("moveRight") then
+            print("moveRight")
+        end
+        if input:down("rotateCW") then
+            print("rotateCW")
+        end
+        if input:down("rotateCCW") then
+            print("rotateCCW")
+        end
 
         local colliding = false
         for _, pos in ipairs(Game.curTetro.blocksI) do
