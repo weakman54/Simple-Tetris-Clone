@@ -50,7 +50,7 @@ function Game:enter(previous, ...)
 end
 function Game:leave()
     print("Game leave")
-    if Game.roundTimer then
+    if Game.roundTimer then -- Cancel timer works here?
         print("cancel roundTimer: " .. tostring(Game.roundTimer))
         Timer.cancel(Game.roundTimer)
     end
@@ -119,10 +119,10 @@ function Game:roundFunction()
                 --print(pos.x, pos.y)
                 if pos.y <= 1 then
                     -- End game if colliding and any block is at/above top-line
-                    -- use return here to stop further execution of the function
-                    print("cancel roundTimer: " .. tostring(Game.roundTimer))
-                    Timer.cancel(Game.roundTimer)
-                    return Gamestate.switch(Game_Over) -- GAME OVER state
+                    Gamestate.switch(Game_Over) -- switch state, this function will continue executing...
+                    -- ...but returns false immediately to stop the timer function
+                    print("Returning false")
+                    return false -- Stop the timer
                 end
             end
             -- stop checking this block
