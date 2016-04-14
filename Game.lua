@@ -3,8 +3,6 @@ Game = {}
 
 function Game:init()
     -- Initialize game state and grid
-    Game.playing = true
-
     Game.grid = {}
     for y=1,20 do
         Game.grid[y] = {}
@@ -26,8 +24,6 @@ function Game:enter(previous, ...)
     if previous == Start_Menu then
         print("...From Start_Menu")
         -- Reinitialize game state and grid
-        Game.playing = true
-
         Game.grid = {}
         for y=1,20 do
             Game.grid[y] = {}
@@ -48,10 +44,9 @@ function Game:enter(previous, ...)
         Timer.cancel(self.roundTimer)
     end
 
-    if Game.playing then
-        Game.roundTimer = Timer.every(self.roundTime, self.roundFunction)
-        print("set roundTimer: " .. tostring(Game.roundTimer))
-    end
+    
+    Game.roundTimer = Timer.every(self.roundTime, self.roundFunction)
+    print("set roundTimer: " .. tostring(Game.roundTimer))
 end
 function Game:leave()
     print("Game leave")
@@ -69,10 +64,7 @@ function Game:update(dt)
         Gamestate.switch(Pause_Menu)
     end
 
-    if not paused then
-        self:gameLoop(dt)
-        self:drawGUI() 
-    end
+    self:drawGUI()
 end
 
 function Game:draw(dt)
@@ -127,7 +119,6 @@ function Game:roundFunction()
                 --print(pos.x, pos.y)
                 if pos.y <= 1 then
                     -- End game if colliding and any block is at/above top-line
-                    Game.playing = false
                     -- use return here to stop further execution of the function
                     print("cancel roundTimer: " .. tostring(Game.roundTimer))
                     Timer.cancel(Game.roundTimer)
